@@ -26,6 +26,7 @@ import kotlin.reflect.KClass
  * Koin component
  * @author - Arnaud GIULIANI
  * @author - Laurent BARESSE
+ * @author - Eslam Hussein
  */
 interface KoinComponent {
 
@@ -47,7 +48,7 @@ private fun getKoinContext(): KoinContext = StandAloneContext.getKoin().koinCont
  * @param parameters - injection parameters
  */
 inline fun <reified T : Any> KoinComponent.inject(
-    name: String = "",
+    name: String = T::class.simpleName ?: "",
     scope: Scope? = null,
     noinline parameters: ParameterDefinition = emptyParameterDefinition()
 ) = lazy { getKoin().get<T>(name, scope, parameters) }
@@ -58,7 +59,7 @@ inline fun <reified T : Any> KoinComponent.inject(
  * @param parameters - injection parameters
  */
 inline fun <reified T : Any> KoinComponent.get(
-    name: String = "",
+    name: String = T::class.simpleName ?: "",
     scope: Scope? = null,
     noinline parameters: ParameterDefinition = emptyParameterDefinition()
 ): T =
@@ -70,7 +71,7 @@ inline fun <reified T : Any> KoinComponent.get(
  * @param parameters - injection parameters
  */
 fun <T : Any> KoinComponent.get(
-    name: String = "",
+    name: String = T::class.simpleName ?: "",
     clazz: KClass<*>,
     scope: Scope? = null,
     parameters: ParameterDefinition = emptyParameterDefinition()
